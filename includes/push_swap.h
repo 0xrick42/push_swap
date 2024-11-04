@@ -20,13 +20,6 @@ t_stack *init_stack(int ac, char **av);
 void    free_stack(t_stack **stack);
 bool    check_duplicates(t_stack *stack);
 
-/* Stack utility functions */
-int     stack_size(t_stack *stack);
-bool    is_sorted(t_stack *stack);
-int     find_min(t_stack *stack);
-int     find_max(t_stack *stack);
-void    print_stack(t_stack *stack);  /* Optional: for debugging */
-
 /* Operations - Push */
 void    pa(t_stack **a, t_stack **b);  /* Push top of b onto a */
 void    pb(t_stack **a, t_stack **b);  /* Push top of a onto b */
@@ -45,6 +38,13 @@ void    rr(t_stack **a, t_stack **b);  /* ra and rb together */
 void    rra(t_stack **a);              /* Rotate a down by 1 */
 void    rrb(t_stack **b);              /* Rotate b down by 1 */
 void    rrr(t_stack **a, t_stack **b); /* rra and rrb together */
+
+/* Stack utility functions */
+int     stack_size(t_stack *stack);
+bool    is_sorted(t_stack *stack);
+int     find_min(t_stack *stack);
+int     find_max(t_stack *stack);
+void    print_stack(t_stack *stack);  /* Optional: for debugging */
 
 /* Sorting Algorithms */
 void    sort_three(t_stack **a);
