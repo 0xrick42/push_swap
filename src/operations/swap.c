@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   swap.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/08 23:22:50 by ykhomsi           #+#    #+#             */
+/*   Updated: 2024/11/08 23:22:53 by ykhomsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/push_swap.h"
 
 static void	swap(t_stack **stack)
@@ -9,16 +21,12 @@ static void	swap(t_stack **stack)
 		return ;
 	first = *stack;
 	second = (*stack)->next;
-
 	first->next = second->next;
 	first->next->prev = first;
-
 	second->next = first;
 	second->prev = first->prev;
-
 	first->prev->next = second;
 	first->prev = second;
-
 	*stack = second;
 }
 

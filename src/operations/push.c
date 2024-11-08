@@ -1,12 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/08 23:20:33 by ykhomsi           #+#    #+#             */
+/*   Updated: 2024/11/08 23:20:59 by ykhomsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/push_swap.h"
 
-static void	push(t_stack **src, t_stack **dst)
+static void	remove_from_src(t_stack **src)
 {
-	t_stack	*temp;
-
-	if (!*src)
-		return ;
-	temp = *src;
 	if ((*src)->next == *src)
 		*src = NULL;
 	else
@@ -15,6 +22,10 @@ static void	push(t_stack **src, t_stack **dst)
 		(*src)->next->prev = (*src)->prev;
 		*src = (*src)->next;
 	}
+}
+
+static void	add_to_dst(t_stack **dst, t_stack *temp)
+{
 	if (!*dst)
 	{
 		*dst = temp;
@@ -29,6 +40,17 @@ static void	push(t_stack **src, t_stack **dst)
 		(*dst)->prev = temp;
 		*dst = temp;
 	}
+}
+
+static void	push(t_stack **src, t_stack **dst)
+{
+	t_stack	*temp;
+
+	if (!*src)
+		return ;
+	temp = *src;
+	remove_from_src(src);
+	add_to_dst(dst, temp);
 }
 
 void	pa(t_stack **a, t_stack **b)

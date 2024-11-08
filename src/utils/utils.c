@@ -1,22 +1,30 @@
 #include "../../includes/push_swap.h"
 
-long	ft_atoi(const char *str)
+static int	handle_spaces_sign(const char *str, int *sign)
 {
-	long	result;
-	int		sign;
-	int		i;
+	int	i;
 
-	result = 0;
-	sign = 1;
 	i = 0;
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			sign = -1;
+			*sign = -1;
 		i++;
 	}
+	return (i);
+}
+
+long	ft_atoi(const char *str)
+{
+	long	result;
+	int		sign;
+	int		i;
+
+	sign = 1;
+	result = 0;
+	i = handle_spaces_sign(str, &sign);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')

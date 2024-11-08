@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_small.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/08 23:29:28 by ykhomsi           #+#    #+#             */
+/*   Updated: 2024/11/08 23:29:54 by ykhomsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/push_swap.h"
 
 static void	sort_two(t_stack **stack)
@@ -33,18 +45,16 @@ void	sort_three(t_stack **stack)
 		rra(stack);
 }
 
-static void	push_smallest(t_stack **a, t_stack **b)
+static int	find_min_position(t_stack *stack, int min)
 {
 	t_stack	*current;
-	int		min;
 	int		pos;
 	int		i;
 
-	min = find_min(*a);
-	current = *a;
+	current = stack;
 	i = 0;
 	pos = 0;
-	while (current->next != *a)
+	while (current->next != stack)
 	{
 		if (current->value == min)
 			pos = i;
@@ -53,10 +63,21 @@ static void	push_smallest(t_stack **a, t_stack **b)
 	}
 	if (current->value == min)
 		pos = i;
-	i = (i + 1) / 2;
+	return (pos);
+}
+
+static void	push_smallest(t_stack **a, t_stack **b)
+{
+	int	min;
+	int	pos;
+	int	mid;
+
+	min = find_min(*a);
+	pos = find_min_position(*a, min);
+	mid = (stack_size(*a) + 1) / 2;
 	while ((*a)->value != min)
 	{
-		if (pos <= i)
+		if (pos <= mid)
 			ra(a);
 		else
 			rra(a);
