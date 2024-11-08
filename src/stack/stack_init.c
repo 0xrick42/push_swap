@@ -1,5 +1,4 @@
-#include "../includes/push_swap.h"
-
+#include "../../includes/push_swap.h"
 
 t_stack *new_node(int value)
 {
@@ -55,32 +54,6 @@ t_stack *init_stack(int ac, char **av)
         error_exit();
     }
     return(head);
-}
-
-
-void free_stack(t_stack **stack)
-{
-    t_stack *current;
-    t_stack *next;
-
-    if (!stack || !*stack)
-        return;
-    if ((*stack)->next == *stack)
-    {
-        free(*stack);
-        *stack = NULL;
-        return;
-    }
-    current = (*stack)->next;
-    (*stack)->prev->next = NULL;
-    while (current != NULL)
-    {
-        next = current->next;
-        free(current);
-        current = next;
-    }
-    free(*stack);
-    *stack = NULL;
 }
 
 bool check_duplicates(t_stack *stack)
