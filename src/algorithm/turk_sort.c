@@ -6,7 +6,7 @@
 /*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 23:34:35 by ykhomsi           #+#    #+#             */
-/*   Updated: 2024/11/08 23:45:05 by ykhomsi          ###   ########.fr       */
+/*   Updated: 2024/11/09 00:00:31 by ykhomsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void	turk_sort(t_stack **a, t_stack **b)
 		while ((*a)->value != num)
 			if (pos <= size_a / 2)
 				ra(a);
-			else
-				rra(a);
+		else
+			rra(a);
 		pb(a, b);
 	}
 	sort_three(a);

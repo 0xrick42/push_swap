@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/08 23:56:43 by ykhomsi           #+#    #+#             */
+/*   Updated: 2024/11/08 23:57:02 by ykhomsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/push_swap.h"
 
 int	stack_size(t_stack *stack)
@@ -17,7 +29,6 @@ int	stack_size(t_stack *stack)
 	return (size);
 }
 
-
 bool	is_sorted(t_stack *stack)
 {
 	t_stack	*current;
@@ -33,7 +44,6 @@ bool	is_sorted(t_stack *stack)
 	}
 	return (true);
 }
-
 
 int	find_min(t_stack *stack)
 {
