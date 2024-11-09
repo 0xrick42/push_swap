@@ -80,3 +80,24 @@ int	find_max(t_stack *stack)
 	}
 	return (max);
 }
+
+int	get_position(t_stack *stack, int num)
+{
+	t_stack	*current;
+	int		pos;
+
+	if (!stack)
+		return (0);
+	current = stack;
+	pos = 0;
+	while (current->next != stack)
+	{
+		if (current->value == num)
+			return (pos);
+		pos++;
+		current = current->next;
+	}
+	if (current->value == num)
+		return (pos);
+	return (0);
+}

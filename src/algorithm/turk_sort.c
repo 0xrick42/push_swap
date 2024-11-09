@@ -1,98 +1,90 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   turk_sort.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 23:34:35 by ykhomsi           #+#    #+#             */
-/*   Updated: 2024/11/09 00:00:31 by ykhomsi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/push_swap.h"
 
-static int	get_position(t_stack *stack, int num, int *size)
+int	get_chunk_size(int stack_size)
+{
+	if (stack_size <= 100)
+		return (15);
+	return (30);
+}
+
+bool	find_in_range(t_stack *stack, int min, int max)
 {
 	t_stack	*current;
-	int		pos;
 
+	if (!stack)
+		return (false);
 	current = stack;
-	pos = 0;
-	*size = 1;
 	while (current->next != stack)
 	{
-		if (current->value == num)
-			return (pos);
-		pos++;
-		(*size)++;
+		if (current->value >= min && current->value <= max)
+			return (true);
 		current = current->next;
 	}
-	if (current->value == num)
-		return (pos);
-	return (pos);
+	if (current->value >= min && current->value <= max)
+		return (true);
+	return (false);
 }
 
-static int	get_cost(t_stack *a, t_stack *b, int num)
+static void	push_to_b(t_stack **a, t_stack **b)
 {
-	t_pos	p;
-	int		cost;
+	int	min;
+	int	max;
+	int	chunk;
 
-	p.a = get_position(a, num, &p.size_a);
-	p.b = get_position(b, find_max(b), &p.size_b);
-	if (p.a > p.size_a / 2)
-		p.a = p.size_a - p.a;
-	if (p.b > p.size_b / 2)
-		p.b = p.size_b - p.b;
-	cost = p.a + p.b;
-	return (cost);
-}
-
-static int	find_best_move(t_stack *a, t_stack *b)
-{
-	t_stack	*current;
-	int		cost;
-	int		best_cost;
-	int		best_num;
-
-	current = a;
-	best_num = current->value;
-	best_cost = get_cost(a, b, current->value);
-	while (current->next != a)
+	chunk = get_chunk_size(stack_size(*a));
+	min = find_min(*a);
+	max = min + chunk;
+	while (*a)
 	{
-		current = current->next;
-		cost = get_cost(a, b, current->value);
-		if (cost < best_cost)
+		if ((*a)->value >= min && (*a)->value <= max)
 		{
-			best_cost = cost;
-			best_num = current->value;
+			pb(a, b);
+			if ((*b)->value < min + chunk / 2)
+				rb(b);
+		}
+		else
+			ra(a);
+		if (!find_in_range(*a, min, max))
+		{
+			min = max + 1;
+			max = min + chunk;
 		}
 	}
-	return (best_num);
+}
+
+static void	push_back_to_a(t_stack **a, t_stack **b)
+{
+	int	max;
+	int	pos;
+	int	size;
+
+	while (*b)
+	{
+		max = find_max(*b);
+		pos = get_position(*b, max);
+		size = stack_size(*b);
+		if (pos <= size / 2)
+			while ((*b)->value != max)
+				rb(b);
+		else
+			while ((*b)->value != max)
+				rrb(b);
+		pa(a, b);
+	}
 }
 
 void	turk_sort(t_stack **a, t_stack **b)
 {
-	int		size_a;
-	int		pos;
-	int		num;
+	int	size;
 
-	if (stack_size(*a) <= 5)
-		return (sort_small(a, b));
-	pb(a, b);
-	pb(a, b);
-	while (stack_size(*a) > 3)
+	size = stack_size(*a);
+	if (size <= 3)
+		sort_three(a);
+	else if (size <= 5)
+		sort_small(a, b);
+	else
 	{
-		num = find_best_move(*a, *b);
-		pos = get_position(*a, num, &size_a);
-		while ((*a)->value != num)
-			if (pos <= size_a / 2)
-				ra(a);
-		else
-			rra(a);
-		pb(a, b);
+		push_to_b(a, b);
+		push_back_to_a(a, b);
 	}
-	sort_three(a);
-	while (*b)
-		pa(a, b);
 }
