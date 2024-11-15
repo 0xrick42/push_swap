@@ -12,7 +12,7 @@
 
 #include "../../includes/push_swap.h"
 
-static void	sort_two(t_stack **stack)
+void	sort_two(t_stack **stack)
 {
 	if ((*stack)->value > (*stack)->next->value)
 		sa(stack);

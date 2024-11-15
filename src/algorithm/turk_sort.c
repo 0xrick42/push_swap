@@ -85,18 +85,20 @@ static void	push_back_to_a(t_stack **a, t_stack **b)
 	}
 }
 
-void	turk_sort(t_stack **a, t_stack **b)
+void    turk_sort(t_stack **a, t_stack **b)
 {
-	int	size;
+    int size;
 
-	size = stack_size(*a);
-	if (size <= 3)
-		sort_three(a);
-	else if (size <= 5)
-		sort_small(a, b);
-	else
-	{
-		push_to_b(a, b);
-		push_back_to_a(a, b);
-	}
+    size = stack_size(*a);
+    if (size == 2)
+        sort_two(a);
+    else if (size == 3)
+        sort_three(a);
+    else if (size <= 5)
+        sort_small(a, b);
+    else
+    {
+        push_to_b(a, b);
+        push_back_to_a(a, b);
+    }
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 23:02:35 by ykhomsi           #+#    #+#             */
-/*   Updated: 2024/11/08 23:46:30 by ykhomsi          ###   ########.fr       */
+/*   Created: 2024/11/15 16:20:33 by ykhomsi           #+#    #+#             */
+/*   Updated: 2024/11/15 16:20:35 by ykhomsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,38 +62,47 @@ bool	check_duplicates(t_stack *stack)
 	return (false);
 }
 
-static int	validate_number(char *str, t_stack **head)
+static void	process_number(t_stack **head, char *str, int *i)
 {
 	long	num;
+	t_stack	*new;
 
-	num = ft_atoi(str);
+	num = ft_atoi(str + *i);
 	if (num > INT_MAX || num < INT_MIN)
 	{
 		free_stack(head);
 		error_exit();
 	}
-	return ((int)num);
+	new = new_node((int)num);
+	if (!new)
+	{
+		free_stack(head);
+		error_exit();
+	}
+	add_node_to_stack(head, new);
+	while (str[*i] && str[*i] != ' ' && (str[*i] < 9 || str[*i] > 13))
+		(*i)++;
 }
 
 t_stack	*init_stack(int ac, char **av)
 {
 	t_stack	*head;
-	t_stack	*new;
 	int		i;
-	int		num;
+	int		j;
 
 	head = NULL;
 	i = 1;
 	while (i < ac)
 	{
-		num = validate_number(av[i], &head);
-		new = new_node(num);
-		if (!new)
+		j = 0;
+		while (av[i][j])
 		{
-			free_stack(&head);
-			error_exit();
+			while (av[i][j] && (av[i][j] == ' ' || (av[i][j] >= 9
+						&& av[i][j] <= 13)))
+				j++;
+			if (av[i][j])
+				process_number(&head, av[i], &j);
 		}
-		add_node_to_stack(&head, new);
 		i++;
 	}
 	if (head && check_duplicates(head))

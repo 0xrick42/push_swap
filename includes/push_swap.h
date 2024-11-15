@@ -50,11 +50,13 @@ bool	is_sorted(t_stack *stack);
 int		find_min(t_stack *stack);
 int		find_max(t_stack *stack);
 int		get_position(t_stack *stack, int value);
+bool	check_duplicates(t_stack *stack);
 
 /* Sorting algorithms */
 void	sort_three(t_stack **a);
 void	sort_small(t_stack **a, t_stack **b);
 void	turk_sort(t_stack **a, t_stack **b);
+void	sort_two(t_stack **stack);
 
 /* Sort utilities */
 int		get_chunk_size(int stack_size);
