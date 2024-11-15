@@ -12,21 +12,17 @@
 
 #include "../../includes/push_swap.h"
 
-t_stack	*new_node(int value)
+static void	add_to_stack(t_stack **head, int value)
 {
-	t_stack	*node;
+	t_stack	*new;
 
-	node = (t_stack *)malloc(sizeof(t_stack));
-	if (!node)
-		return (NULL);
-	node->value = value;
-	node->next = NULL;
-	node->prev = NULL;
-	return (node);
-}
-
-static void	add_node_to_stack(t_stack **head, t_stack *new)
-{
+	new = (t_stack *)malloc(sizeof(t_stack));
+	if (!new)
+	{
+		free_stack(head);
+		error_exit();
+	}
+	new->value = value;
 	if (!*head)
 	{
 		*head = new;
@@ -40,7 +36,7 @@ static void	add_node_to_stack(t_stack **head, t_stack *new)
 	(*head)->prev = new;
 }
 
-bool	check_duplicates(t_stack *stack)
+static bool	has_duplicates(t_stack *stack)
 {
 	t_stack	*current;
 	t_stack	*check;
@@ -62,53 +58,41 @@ bool	check_duplicates(t_stack *stack)
 	return (false);
 }
 
-static void	process_number(t_stack **head, char *str, int *i)
+static void	process_argument(t_stack **head, char *arg)
 {
+	int		j;
 	long	num;
-	t_stack	*new;
 
-	num = ft_atoi(str + *i);
-	if (num > INT_MAX || num < INT_MIN)
-	{
-		free_stack(head);
+	j = 0;
+	if (!arg[0])
 		error_exit();
-	}
-	new = new_node((int)num);
-	if (!new)
+	while (arg[j])
 	{
-		free_stack(head);
-		error_exit();
+		while (arg[j] && (arg[j] == ' ' || (arg[j] >= 9
+					&& arg[j] <= 13)))
+			j++;
+		if (arg[j])
+		{
+			num = ft_atoi(arg + j);
+			if (num > INT_MAX || num < INT_MIN)
+				error_exit();
+			add_to_stack(head, (int)num);
+			while (arg[j] && arg[j] != ' ')
+				j++;
+		}
 	}
-	add_node_to_stack(head, new);
-	while (str[*i] && str[*i] != ' ' && (str[*i] < 9 || str[*i] > 13))
-		(*i)++;
 }
 
 t_stack	*init_stack(int ac, char **av)
 {
 	t_stack	*head;
 	int		i;
-	int		j;
 
 	head = NULL;
-	i = 1;
-	while (i < ac)
-	{
-		j = 0;
-		while (av[i][j])
-		{
-			while (av[i][j] && (av[i][j] == ' ' || (av[i][j] >= 9
-						&& av[i][j] <= 13)))
-				j++;
-			if (av[i][j])
-				process_number(&head, av[i], &j);
-		}
-		i++;
-	}
-	if (head && check_duplicates(head))
-	{
-		free_stack(&head);
+	i = 0;
+	while (++i < ac)
+		process_argument(&head, av[i]);
+	if (!head || has_duplicates(head))
 		error_exit();
-	}
 	return (head);
 }
