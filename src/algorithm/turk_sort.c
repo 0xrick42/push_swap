@@ -6,7 +6,7 @@
 /*   By: ykhomsi <ykhomsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:55:12 by ykhomsi           #+#    #+#             */
-/*   Updated: 2024/11/10 14:55:28 by ykhomsi          ###   ########.fr       */
+/*   Updated: 2024/11/15 16:46:54 by ykhomsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ static void	push_back_to_a(t_stack **a, t_stack **b)
 	}
 }
 
-void    turk_sort(t_stack **a, t_stack **b)
+void	turk_sort(t_stack **a, t_stack **b)
 {
-    int size;
+	int	size;
 
-    size = stack_size(*a);
-    if (size == 2)
-        sort_two(a);
-    else if (size == 3)
-        sort_three(a);
-    else if (size <= 5)
-        sort_small(a, b);
-    else
-    {
-        push_to_b(a, b);
-        push_back_to_a(a, b);
-    }
+	size = stack_size(*a);
+	if (size == 2)
+		sort_two(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size <= 5)
+		sort_small(a, b);
+	else
+	{
+		push_to_b(a, b);
+		push_back_to_a(a, b);
+	}
 }
