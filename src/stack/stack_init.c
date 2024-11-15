@@ -62,8 +62,10 @@ static void	process_argument(t_stack **head, char *arg)
 {
 	int		j;
 	long	num;
+	bool	found_number;
 
 	j = 0;
+	found_number = false;
 	if (!arg[0])
 		error_exit();
 	while (arg[j])
@@ -77,10 +79,14 @@ static void	process_argument(t_stack **head, char *arg)
 			if (num > INT_MAX || num < INT_MIN)
 				error_exit();
 			add_to_stack(head, (int)num);
-			while (arg[j] && arg[j] != ' ')
+			found_number = true;
+			while (arg[j] && !((arg[j] >= 9 && arg[j] <= 13)
+					|| arg[j] == ' '))
 				j++;
 		}
 	}
+	if (!found_number)
+		error_exit();
 }
 
 t_stack	*init_stack(int ac, char **av)
@@ -88,6 +94,8 @@ t_stack	*init_stack(int ac, char **av)
 	t_stack	*head;
 	int		i;
 
+	if (ac < 2)
+		error_exit();
 	head = NULL;
 	i = 0;
 	while (++i < ac)
